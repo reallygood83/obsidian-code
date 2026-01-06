@@ -7022,6 +7022,13 @@ var TerminalView = class extends import_obsidian.ItemView {
     this.fitAddon = new import_addon_fit.FitAddon();
     this.term.loadAddon(this.fitAddon);
     this.term.open(this.termHost);
+    // IME composition tracking for Korean/CJK input
+    this._isComposing = false;
+    const textarea = this.termHost.querySelector('textarea');
+    if (textarea) {
+      textarea.addEventListener('compositionstart', () => { this._isComposing = true; });
+      textarea.addEventListener('compositionend', () => { this._isComposing = false; });
+    }
     this.term.parser?.registerCsiHandler({ final: "I" }, () => true);
     this.term.parser?.registerCsiHandler({ final: "O" }, () => true);
     this.term.attachCustomKeyEventHandler((ev) => {
@@ -7048,6 +7055,8 @@ var TerminalView = class extends import_obsidian.ItemView {
       return true;
     });
     this.term.onData((data) => {
+      // Skip if IME composition is in progress (Korean/CJK input)
+      if (this._isComposing) return;
       if (this.proc && !this.proc.killed) {
         // Filter out focus in/out sequences before sending to shell
         const filtered = data.replace(/\x1b\[I/g, '').replace(/\x1b\[O/g, '');

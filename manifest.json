@@ -1,7 +1,7 @@
 {
 	"id": "cc-obsidian",
 	"name": "CC Obsidian",
-	"version": "1.0.0",
+	"version": "1.1.0",
 	"minAppVersion": "1.0.0",
 	"description": "Obsidian 사이드바에서 Claude Code를 실행하세요.",
 	"author": "배움의 달인",
