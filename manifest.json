@@ -1,7 +1,7 @@
 {
   "id": "cc-obsidian",
   "name": "cc-obsidian",
-  "version": "1.3.21",
+  "version": "1.3.22",
   "minAppVersion": "1.0.0",
   "description": "Embed Claude AI as a sidebar chat with full agentic capabilities for file operations and bash commands.",
   "author": "reallygood83",
