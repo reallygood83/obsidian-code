@@ -400,8 +400,19 @@ export async function installSkillFromUrl(app: App, url: string): Promise<boolea
       // Handle: https://github.com/user/repo/blob/branch/file.md
       if (url.includes('/blob/')) {
         rawUrl = url.replace('github.com', 'raw.githubusercontent.com').replace('/blob/', '/');
-      } else {
-        // Handle: https://github.com/user/repo -> assume main/SKILL.md
+      }
+      // Handle: https://github.com/user/repo/tree/branch/path (folder URL)
+      else if (url.includes('/tree/')) {
+        rawUrl = url
+          .replace('github.com', 'raw.githubusercontent.com')
+          .replace('/tree/', '/');
+        // If URL doesn't end with .md, assume it's a folder and add SKILL.md
+        if (!rawUrl.toLowerCase().endsWith('.md')) {
+          rawUrl = rawUrl.replace(/\/$/, '') + '/SKILL.md';
+        }
+      }
+      // Handle: https://github.com/user/repo -> assume main/SKILL.md
+      else {
         // Remove trailing slash if present
         const cleanUrl = url.replace(/\/$/, '');
         rawUrl = `${cleanUrl.replace('github.com', 'raw.githubusercontent.com')}/main/SKILL.md`;
