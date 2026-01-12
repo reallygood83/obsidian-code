@@ -1,6 +1,8 @@
 # Obsidian Code
 
-
+[![YouTube](https://img.shields.io/badge/YouTube-배움의달인-red?style=for-the-badge&logo=youtube)](https://www.youtube.com/@%EB%B0%B0%EC%9B%80%EC%9D%98%EB%8B%AC%EC%9D%B8-p5v)
+[![X Follow](https://img.shields.io/badge/X-@reallygood83-black?style=for-the-badge&logo=x)](https://x.com/reallygood83)
+[![GitHub](https://img.shields.io/badge/GitHub-reallygood83-blue?style=for-the-badge&logo=github)](https://github.com/reallygood83)
 
 옵시디언(Obsidian)을 사용하면서 "이 내용을 좀 정리해줘" 혹은 "이 파일을 수정해줘"라고 말만 하면 알아서 해주는 비서가 있다면 얼마나 좋을까요?  
 **Obsidian Code**는 바로 그런 역할을 합니다. 옵시디언 사이드바에서 클로드(Claude)와 대화하며, 클로드가 여러분의 노트를 직접 읽고, 쓰고, 명령어도 실행하게 만드는 강력한 플러그인입니다.
@@ -9,13 +11,29 @@
 
 ---
 
-## 🙋‍♂️ 개발자 및 소통 창구 (Connect)
+## 🌟 Obsidian Code만의 특별한 기능
 
-이 플러그인은 여러분의 생산성을 극대화하기 위해 관리되고 있습니다. 궁금한 점이나 팁을 얻고 싶다면 아래 채널을 방문해주세요!
+### 📌 스마트 노트 핀 기능
+여러 노트를 참고하면서 작업할 때 불편하셨나요? 이제 노트를 **핀(고정)**하면 다른 노트를 열어봐도 첨부된 노트가 바뀌지 않습니다!
 
-- **GitHub**: [reallygood83](https://github.com/reallygood83) (코드와 이슈 관리)
-- **YouTube**: [배움의 달인](https://www.youtube.com/@%EB%B0%B0%EC%9B%80%EC%9D%98%EB%8B%AC%EC%9D%B8-p5v) (활용 꿀팁 영상)
-- **X (Twitter)**: [x.com/reallygood83](https://x.com/reallygood83) (빠른 소식)
+- 파일 칩의 **📌 핀 버튼** 클릭 → 노트 고정
+- 여러 노트를 열어 확인하면서도 컨텍스트 유지
+- `Cmd/Ctrl + P` → "Attach current note to chat"으로 빠르게 노트 추가
+
+### 🎯 직관적인 권한 모드
+- **AUTO 모드**: Claude가 자동으로 파일 수정 및 명령 실행 (빠른 작업용)
+- **Safe 모드**: 모든 작업에 승인 필요 (신중한 작업용)
+- **Plan 모드**: 실행 없이 계획만 세우기
+
+### 🧠 Obsidian Skills 자동 설치
+Claude가 Obsidian 문법을 완벽히 이해하도록 도와주는 Skills를 원클릭 설치!
+- `[[wikilinks]]`, `![[embeds]]`, `> [!callout]` 등 Obsidian 고유 문법 지원
+- 설정 → Obsidian Skills → **Install Skills** 클릭
+
+### 📎 다중 파일 컨텍스트
+- `@`를 입력하여 여러 파일을 한 번에 첨부
+- 첨부된 모든 파일이 **칩 형태**로 표시되어 한눈에 확인
+- 각 칩에서 바로 열기, 핀, 삭제 가능
 
 ---
 
@@ -27,6 +45,16 @@
 *   **✏️ 바로 수정하기**: 텍스트를 선택하고 단축키를 누르면, 그 부분만 쏙 골라 클로드가 수정해줍니다. (워드프로세서의 '변경 내용 추적'처럼 수정된 부분을 보여줍니다.)
 *   **🧠 나만의 비서 교육**: `#`을 입력하면 클로드에게 "항상 이렇게 답변해"라고 지시사항(System Prompt)을 추가할 수 있습니다.
 *   **🛠️ 도구 확장 (MCP)**: 외부 도구들과도 연결하여 기능을 무한히 확장할 수 있습니다.
+
+---
+
+## 🙋‍♂️ 개발자 및 소통 창구 (Connect)
+
+이 플러그인은 여러분의 생산성을 극대화하기 위해 관리되고 있습니다. 궁금한 점이나 팁을 얻고 싶다면 아래 채널을 방문해주세요!
+
+[![YouTube](https://img.shields.io/badge/YouTube-배움의달인-FF0000?style=flat-square&logo=youtube&logoColor=white)](https://www.youtube.com/@%EB%B0%B0%EC%9B%80%EC%9D%98%EB%8B%AC%EC%9D%B8-p5v)
+[![X Follow](https://img.shields.io/badge/Follow-@reallygood83-000000?style=flat-square&logo=x&logoColor=white)](https://x.com/reallygood83)
+[![GitHub](https://img.shields.io/badge/GitHub-reallygood83-181717?style=flat-square&logo=github&logoColor=white)](https://github.com/reallygood83)
 
 ---
 
@@ -86,9 +114,12 @@
 2.  **문맥 추가하기 (`@`)**:
     *   채팅창에 `@`를 입력해보세요. 내 저장소의 다른 파일이나 폴더를 선택해서 "이것 좀 봐줘"라고 할 수 있습니다.
     *   `@foler/`라고 쓰면 특정 폴더 안의 파일들만 보여줍니다.
-3.  **명령어 템플릿 (`/`)**:
+3.  **노트 핀하기 (📌)**:
+    *   파일 칩의 핀 아이콘을 클릭하면 해당 노트가 고정됩니다.
+    *   다른 노트를 열어도 핀된 노트는 사라지지 않습니다!
+4.  **명령어 템플릿 (`/`)**:
     *   `/`를 입력하면 자주 쓰는 명령어 모음이 나옵니다.
-4.  **바로 고치기 (Inline Edit)**:
+5.  **바로 고치기 (Inline Edit)**:
     *   노트에서 고치고 싶은 문장을 드래그해서 선택합니다.
     *   지정된 단축키를 누르면 클로드가 그 부분만 수정해줍니다.
 
@@ -99,6 +130,7 @@
 설정 메뉴에서 클로드를 더 똑똑하게 만들 수 있습니다.
 
 *   **사용자 이름**: 클로드가 여러분을 부를 이름을 정해주세요.
+*   **Obsidian Skills**: Claude가 Obsidian 문법을 이해하도록 Skills를 설치하세요.
 *   **미디어 폴더**: 이미지를 붙여넣을 때 저장될 위치를 정합니다.
 *   **안전 모드 (Safety)**:
     *   클로드가 터미널 명령어를 쓸 때 위험한 명령(`rm -rf` 등)은 막습니다.
@@ -129,3 +161,10 @@ A. 클로드 프로그램이 어디 있는지 플러그인이 못 찾아서 그�
 ## 🙏 감사의 말
 
 이 플러그인은 Obsidian과 Anthropic의 위대한 도구들 덕분에 만들어졌습니다.
+
+---
+
+<p align="center">
+  <a href="https://www.youtube.com/@%EB%B0%B0%EC%9B%80%EC%9D%98%EB%8B%AC%EC%9D%B8-p5v"><img src="https://img.shields.io/badge/YouTube-구독하기-red?style=for-the-badge&logo=youtube" alt="YouTube"></a>
+  <a href="https://x.com/reallygood83"><img src="https://img.shields.io/badge/X-팔로우-black?style=for-the-badge&logo=x" alt="X Follow"></a>
+</p>
