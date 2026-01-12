@@ -30,9 +30,10 @@
 
 .oc-model-dropdown {
   position: absolute;
-  bottom: 100%;
+  bottom: 0;
   left: 0;
-  margin-bottom: 0;
+  margin-bottom: 28px;
+  /* Height of the button + some spacing */
   display: flex;
   flex-direction: column;
   gap: 2px;
@@ -61,6 +62,9 @@
   border-radius: 3px;
   transition: background 0.1s ease, color 0.1s ease;
   white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .oc-model-option:hover {
@@ -72,4 +76,12 @@
   background: rgba(217, 119, 87, 0.15);
   color: #D97757;
   font-weight: 500;
+}
+
+.oc-model-option .oc-model-desc {
+  font-size: 10px;
+  color: var(--text-faint);
+  margin-left: 12px;
+  font-weight: normal;
+  opacity: 0.7;
 }

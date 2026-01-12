@@ -115,6 +115,7 @@ export class ModelSelector {
       option.createSpan({ text: model.label });
       if (model.description) {
         option.setAttribute('title', model.description);
+        option.createSpan({ cls: 'oc-model-desc', text: model.description });
       }
 
       option.addEventListener('click', async (e) => {
