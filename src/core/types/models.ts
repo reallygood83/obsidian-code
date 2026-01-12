@@ -7,9 +7,9 @@ export type ClaudeModel = string;
 
 /** Default Claude model options. */
 export const DEFAULT_CLAUDE_MODELS: { value: ClaudeModel; label: string; description: string }[] = [
-  { value: 'haiku', label: 'Haiku', description: 'Claude 3.5 Haiku' },
-  { value: 'sonnet', label: 'Sonnet', description: 'Claude 3.5 Sonnet' },
-  { value: 'opus', label: 'Opus', description: 'Claude 3 Opus' },
+  { value: 'haiku', label: 'Haiku', description: 'Claude Haiku (Latest via CLI)' },
+  { value: 'sonnet', label: 'Sonnet', description: 'Claude Sonnet (Latest via CLI)' },
+  { value: 'opus', label: 'Opus', description: 'Claude Opus (Latest via CLI)' },
 ];
 
 /** Extended thinking token budget levels. */
