@@ -26,9 +26,23 @@
 - **Plan 모드**: 실행 없이 계획만 세우기
 
 ### 🧠 Obsidian Skills 자동 설치
-Claude가 Obsidian 문법을 완벽히 이해하도록 도와주는 Skills를 원클릭 설치!
-- `[[wikilinks]]`, `![[embeds]]`, `> [!callout]` 등 Obsidian 고유 문법 지원
-- 설정 → Obsidian Skills → **Install Skills** 클릭
+Claude가 Obsidian 문법을 완벽히 이해하도록 도와주는 **Skills**를 원클릭으로 설치할 수 있습니다!
+
+**설치 방법:**
+1. 플러그인 설정 열기 (설정 → Obsidian Code)
+2. **Obsidian Skills** 섹션으로 스크롤
+3. **Install Skills** 버튼 클릭
+
+**설치되는 Skills:**
+- **Obsidian Markdown**: `[[wikilinks]]`, `![[embeds]]`, `> [!callout]`, YAML frontmatter 등
+- **JSON Canvas**: `.canvas` 파일 생성 및 편집 지원
+
+Skills가 설치되면 Claude가 다음을 더 잘 이해합니다:
+- 내부 링크 및 임베드
+- 콜아웃 문법
+- 프로퍼티(frontmatter)
+- Mermaid 다이어그램
+- 수학 수식 (LaTeX)
 
 ### 📎 다중 파일 컨텍스트
 - `@`를 입력하여 여러 파일을 한 번에 첨부
