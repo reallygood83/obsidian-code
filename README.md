@@ -1,9 +1,9 @@
-# cc-obsidian
+# Obsidian Code
 
 
 
 옵시디언(Obsidian)을 사용하면서 "이 내용을 좀 정리해줘" 혹은 "이 파일을 수정해줘"라고 말만 하면 알아서 해주는 비서가 있다면 얼마나 좋을까요?  
-**cc-obsidian**은 바로 그런 역할을 합니다. 옵시디언 사이드바에서 클로드(Claude)와 대화하며, 클로드가 여러분의 노트를 직접 읽고, 쓰고, 명령어도 실행하게 만드는 강력한 플러그인입니다.
+**Obsidian Code**는 바로 그런 역할을 합니다. 옵시디언 사이드바에서 클로드(Claude)와 대화하며, 클로드가 여러분의 노트를 직접 읽고, 쓰고, 명령어도 실행하게 만드는 강력한 플러그인입니다.
 
 단순히 질문에 대답만 하는 챗봇이 아닙니다. 여러분의 '디지털 정원(Vault)'을 관리하는 똑똑한 정원사라고 생각해보세요.
 
@@ -30,6 +30,18 @@
 
 ---
 
+## 🚀 필수 선행 작업 (Prerequisites)
+
+이 플러그인은 Anthropic의 **Claude Code CLI**를 기반으로 작동합니다. 사용 전 다음 단계를 반드시 완료해주세요.
+
+1.  **Claude Code 설치**: 터미널(또는 CMD/PowerShell)을 열고 아래 명령어를 입력하여 설치합니다.
+    ```bash
+    npm install -g @anthropic-ai/claude-code
+    ```
+2.  **인증 완료**: 터미널에서 `claude`를 입력하여 실행한 후, **브라우저를 통해 Anthropic 계정 인증을 1회 완료**해야 합니다. 인증이 완료되어 터미널에서 Claude와 대화가 가능한 상태여야 플러그인이 정상 작동합니다.
+
+---
+
 ## 🚀 설치 방법 (Installation)
 
 ### 방법 1: BRAT을 이용한 설치 (권장)
@@ -45,7 +57,7 @@
     *   `https://github.com/reallygood83/cc-obsidian`
 4.  **활성화**: 
     *   설치가 완료되면 알림이 뜹니다.
-    *   **설정(Settings) → 커뮤니티 플러그인(Community plugins)** 목록으로 가서 "cc-obsidian"을 찾아 켜주세요(Enable).
+    *   **설정(Settings) → 커뮤니티 플러그인(Community plugins)** 목록으로 가서 "Obsidian Code"를 찾아 켜주세요(Enable).
 
 ### 방법 2: 개발자용 설치 (직접 빌드)
 
@@ -91,14 +103,14 @@
 *   **안전 모드 (Safety)**:
     *   클로드가 터미널 명령어를 쓸 때 위험한 명령(`rm -rf` 등)은 막습니다.
     *   파일을 수정하거나 명령을 내릴 때마다 허락을 받도록 설정할 수 있습니다(권장).
-*   **Claude CLI 설정**: 만약 "Claude CLI not found" 오류가 뜬다면, 컴퓨터에 설치된 Claude의 위치를 직접 알려줘야 합니다. (터미널에서 `which claude` 또는 `where.exe claude`로 찾을 수 있습니다.)
+*   **Claude Code CLI 설정**: 만약 "Claude Code CLI not found" 오류가 뜬다면, 컴퓨터에 설치된 Claude의 위치를 직접 알려줘야 합니다. (터미널에서 `which claude` 또는 `where.exe claude`로 찾을 수 있습니다.)
 
 ---
 
 ## ❓ 자주 묻는 질문 (Troubleshooting)
 
-**Q. "Claude CLI not found"라고 뜨면서 안 돼요!**  
-A. 클로드 프로그램이 어디 있는지 플러그인이 못 찾아서 그렇습니다. 설정(Settings) -> Advanced 탭에 가서 `Claude CLI path`에 직접 경로를 입력해주세요.
+**Q. "Claude Code CLI not found"라고 뜨면서 안 돼요!**  
+A. 클로드 프로그램이 어디 있는지 플러그인이 못 찾아서 그렇습니다. 설정(Settings) -> Advanced 탭에 가서 `Claude Code CLI path`에 직접 경로를 입력해주세요.
 
 **MacOS/Linux 예시:**
 1. 터미널에 `which claude` 입력

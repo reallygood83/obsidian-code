@@ -41,7 +41,7 @@ function openHotkeySettings(app: App): void {
       // Handle both old and new Obsidian versions
       const searchEl = tab.searchInputEl ?? tab.searchComponent?.inputEl;
       if (searchEl) {
-        searchEl.value = 'ObsidianCode';
+        searchEl.value = 'Obsidian Code';
         tab.updateHotkeyVisibility?.();
       }
     }
@@ -464,12 +464,13 @@ export class ObsidianCodeSettingTab extends PluginSettingTab {
     // Advanced section
     new Setting(containerEl).setName('Advanced').setHeading();
 
-    const cliPathDescription = process.platform === 'win32'
+    const cliPathDescription = (process.platform === 'win32'
       ? 'Custom path to Claude Code CLI. Leave empty for auto-detection. For the native installer, use claude.exe. For npm/pnpm/yarn or other package manager installs, use the cli.js path (not claude.cmd).'
-      : 'Custom path to Claude Code CLI. Leave empty for auto-detection. Paste the output of "which claude" — works for both native and npm/pnpm/yarn installs.';
+      : 'Custom path to Claude Code CLI. Leave empty for auto-detection. Paste the output of "which claude" — works for both native and npm/pnpm/yarn installs.')
+      + ' **Note: You must install the Claude Code CLI (`npm install -g @anthropic-ai/claude-code`) and run it once in your terminal to authenticate via browser.**';
 
     const cliPathSetting = new Setting(containerEl)
-      .setName('Claude CLI path')
+      .setName('Claude Code CLI path')
       .setDesc(cliPathDescription);
 
     // Create validation message element
