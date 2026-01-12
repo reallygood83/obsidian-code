@@ -9,7 +9,8 @@ import type {
   ObsidianCodeMcpServer,
   PermissionMode,
   ThinkingBudget,
-  UsageInfo} from '../../core/types';
+  UsageInfo
+} from '../../core/types';
 import {
   DEFAULT_CLAUDE_MODELS,
   THINKING_BUDGETS
@@ -182,7 +183,7 @@ export class ThinkingBudgetSelector {
   }
 }
 
-/** Permission mode toggle (YOLO/Safe/Plan). */
+/** Permission mode toggle (AUTO/Safe/Plan). */
 export class PermissionToggle {
   private container: HTMLElement;
   private toggleEl: HTMLElement | null = null;
@@ -262,7 +263,7 @@ export class PermissionToggle {
       this.toggleEl.removeClass('active');
     }
 
-    this.labelEl.setText(isYolo ? 'YOLO' : 'Safe');
+    this.labelEl.setText(isYolo ? 'AUTO' : 'Safe');
   }
 
   private async toggle() {

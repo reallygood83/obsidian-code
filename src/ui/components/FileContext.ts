@@ -61,9 +61,9 @@ export class FileContextManager {
       onRemoveAttachment: (filePath) => {
         if (filePath === this.currentNotePath) {
           this.currentNotePath = null;
-          this.state.detachFile(filePath);
-          this.refreshCurrentNoteChip();
         }
+        this.state.detachFile(filePath);
+        this.refreshAllChips();
       },
       onOpenFile: async (filePath) => {
         const file = this.app.vault.getAbstractFileByPath(filePath);
@@ -83,9 +83,14 @@ export class FileContextManager {
       this.containerEl,
       this.inputEl,
       {
-        onAttachFile: (filePath) => this.state.attachFile(filePath),
-        onAttachContextFile: (displayName, absolutePath) =>
-          this.state.attachContextFile(displayName, absolutePath),
+        onAttachFile: (filePath) => {
+          this.state.attachFile(filePath);
+          this.refreshAllChips();
+        },
+        onAttachContextFile: (displayName, absolutePath) => {
+          this.state.attachContextFile(displayName, absolutePath);
+          this.refreshAllChips();
+        },
         onMcpMentionChange: (servers) => this.onMcpMentionChange?.(servers),
         getMentionedMcpServers: () => this.state.getMentionedMcpServers(),
         setMentionedMcpServers: (mentions) => this.state.setMentionedMcpServers(mentions),
@@ -243,7 +248,13 @@ export class FileContextManager {
   }
 
   private refreshCurrentNoteChip(): void {
+    this.refreshAllChips();
+  }
+
+  /** Refreshes all file chips (current note + attached files). */
+  private refreshAllChips(): void {
     this.chipsView.renderCurrentNote(this.currentNotePath);
+    this.chipsView.setAttachedFiles(this.state.getAttachedFiles());
     this.callbacks.onChipsChanged?.();
   }
 
