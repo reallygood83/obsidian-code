@@ -1060,6 +1060,25 @@ describe('ObsidianCodeService', () => {
       expect(blockedChunk).toBeUndefined();
     });
 
+    it('should allow Read tool reading from persisted external path setting', async () => {
+      mockPlugin.settings.allowedExternalPaths = ['/tmp/workspace'];
+
+      setMockMessages([
+        { type: 'system', subtype: 'init', session_id: 'test-session' },
+        createAssistantWithToolUse('Read', { file_path: '/tmp/workspace/in.md' }, 'read-persisted-external'),
+        createUserWithToolResult('context contents', 'read-persisted-external'),
+        { type: 'result' },
+      ]);
+
+      const chunks: any[] = [];
+      for await (const chunk of service.query('read persisted external path')) {
+        chunks.push(chunk);
+      }
+
+      const blockedChunk = chunks.find((c) => c.type === 'blocked');
+      expect(blockedChunk).toBeUndefined();
+    });
+
     it('should allow Read tool reading from context path under export path', async () => {
       mockPlugin.settings.allowedExportPaths = ['/tmp'];
 

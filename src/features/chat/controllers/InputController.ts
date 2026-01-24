@@ -249,7 +249,7 @@ export class InputController {
       promptToSend = fileContextManager.transformContextMentions(promptToSend);
     }
 
-    fileContextManager?.markCurrentNoteSent();
+    fileContextManager?.markCurrentNoteSent(currentNoteForMessage);
 
     const userMsg: ChatMessage = {
       id: this.deps.generateId(),
@@ -542,7 +542,7 @@ ${content}
       currentNoteForMessage = currentNote;
     }
 
-    fileContextManager?.markCurrentNoteSent();
+    fileContextManager?.markCurrentNoteSent(currentNoteForMessage);
 
     if (!skipUserMessage) {
       const displayContent = options?.displayContent ?? content;

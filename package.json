@@ -1,6 +1,6 @@
 {
   "name": "cc-obsidian",
-  "version": "1.4.18",
+  "version": "1.4.19",
   "description": "ObsidianCode - Claude Code embedded in Obsidian sidebar",
   "main": "main.js",
   "scripts": {

@@ -14,8 +14,8 @@ import type ObsidianCodePlugin from '../../main';
 import { EnvSnippetManager, McpSettingsManager, SlashCommandSettings } from '../../ui';
 import { getModelsFromEnvironment, parseEnvironmentVariables } from '../../utils/env';
 import { expandHomePath } from '../../utils/path';
-import { buildNavMappingText, parseNavMappings } from './keyboardNavigation';
 import { getInstalledSkills, installObsidianSkills, installSkillFromUrl, isObsidianSkillsInstalled, removeSkill, uninstallObsidianSkills } from '../skills/ObsidianSkillsInstaller';
+import { buildNavMappingText, parseNavMappings } from './keyboardNavigation';
 
 /** Format a hotkey for display (e.g., "Cmd+Shift+E" on Mac, "Ctrl+Shift+E" on Windows). */
 function formatHotkey(hotkey: { modifiers: string[]; key: string }): string {
@@ -492,6 +492,27 @@ export class ObsidianCodeSettingTab extends PluginSettingTab {
           text.inputEl.cols = 40;
         });
     }
+
+    new Setting(containerEl)
+      .setName('Allowed external paths')
+      .setDesc('Paths outside the vault where Claude can read and write files (one per line). Supports ~ for home directory.')
+      .addTextArea((text) => {
+        const placeholder = process.platform === 'win32'
+          ? 'C:\\Users\\username\\Projects'
+          : '~/Projects\n/Users/username/Documents';
+        text
+          .setPlaceholder(placeholder)
+          .setValue((this.plugin.settings.allowedExternalPaths ?? []).join('\n'))
+          .onChange(async (value) => {
+            this.plugin.settings.allowedExternalPaths = value
+              .split(/\r?\n/)
+              .map((s) => s.trim())
+              .filter((s) => s.length > 0);
+            await this.plugin.saveSettings();
+          });
+        text.inputEl.rows = 4;
+        text.inputEl.cols = 40;
+      });
 
     new Setting(containerEl)
       .setName('Allowed export paths')

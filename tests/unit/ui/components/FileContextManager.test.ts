@@ -235,11 +235,13 @@ describe('FileContextManager', () => {
 
     manager.setCurrentNote('notes/alpha.md');
     expect(manager.shouldSendCurrentNote()).toBe(true);
-    manager.markCurrentNoteSent();
+    manager.markCurrentNoteSent('notes/alpha.md');
     expect(manager.shouldSendCurrentNote()).toBe(false);
+    manager.setCurrentNote('notes/beta.md');
+    expect(manager.shouldSendCurrentNote()).toBe(true);
 
     manager.resetForLoadedConversation(true);
-    manager.setCurrentNote('notes/alpha.md');
+    manager.setCurrentNote('notes/alpha.md', true);
     expect(manager.shouldSendCurrentNote()).toBe(false);
 
     manager.resetForLoadedConversation(false);
@@ -261,8 +263,30 @@ describe('FileContextManager', () => {
     // When loading a conversation that already has messages, the current note
     // should be marked as already sent to avoid re-sending context
     manager.resetForLoadedConversation(true);
-    manager.setCurrentNote('notes/restored.md');
+    manager.setCurrentNote('notes/restored.md', true);
     expect(manager.shouldSendCurrentNote()).toBe(false);
+    manager.setCurrentNote('notes/new-focus.md');
+    expect(manager.shouldSendCurrentNote()).toBe(true);
+
+    manager.destroy();
+  });
+
+  it('updates current note after a session starts when no files are pinned', () => {
+    const app = createMockApp({ files: ['notes/first.md', 'notes/second.md'] });
+    const manager = new FileContextManager(
+      app,
+      containerEl as any,
+      inputEl,
+      createMockCallbacks()
+    );
+
+    manager.setCurrentNote('notes/first.md');
+    manager.markCurrentNoteSent('notes/first.md');
+    manager.startSession();
+    manager.handleFileOpen({ path: 'notes/second.md' } as any);
+
+    expect(manager.getCurrentNotePath()).toBe('notes/second.md');
+    expect(manager.shouldSendCurrentNote()).toBe(true);
 
     manager.destroy();
   });

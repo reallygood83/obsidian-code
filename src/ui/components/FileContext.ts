@@ -129,12 +129,12 @@ export class FileContextManager {
   /** Checks whether current note should be sent for this session. */
   shouldSendCurrentNote(notePath?: string | null): boolean {
     const resolvedPath = notePath ?? this.currentNotePath;
-    return !!resolvedPath && !this.state.hasSentCurrentNote();
+    return this.state.shouldSendCurrentNote(resolvedPath);
   }
 
   /** Marks current note as sent (call after sending a message). */
-  markCurrentNoteSent() {
-    this.state.markCurrentNoteSent();
+  markCurrentNoteSent(notePath?: string | null) {
+    this.state.markCurrentNoteSent(notePath ?? this.currentNotePath);
   }
 
   isSessionStarted(): boolean {
@@ -160,10 +160,13 @@ export class FileContextManager {
   }
 
   /** Sets current note (for restoring persisted state). */
-  setCurrentNote(notePath: string | null) {
+  setCurrentNote(notePath: string | null, alreadySent = false) {
     this.currentNotePath = notePath;
     if (notePath) {
       this.state.attachFile(notePath);
+    }
+    if (alreadySent) {
+      this.state.markCurrentNoteAlreadySent(notePath);
     }
     this.refreshCurrentNoteChip();
   }
@@ -204,11 +207,6 @@ export class FileContextManager {
     // If there are pinned files, don't auto-change current note
     // User must explicitly attach new notes via command or @-mention
     if (this.state.hasPinnedFiles()) {
-      return;
-    }
-
-    // Also don't change if session has started (backward compatibility)
-    if (this.state.isSessionStarted()) {
       return;
     }
 

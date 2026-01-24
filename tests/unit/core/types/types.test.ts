@@ -1,9 +1,9 @@
 import type {
   ChatMessage,
-  ObsidianCodeSettings,
   Conversation,
   ConversationMeta,
-  EnvSnippet, StreamChunk,
+  EnvSnippet,   ObsidianCodeSettings,
+StreamChunk,
   ToolCallInfo
 } from '@/core/types';
 import {
@@ -90,6 +90,7 @@ describe('types.ts', () => {
         environmentVariables: '',
         envSnippets: [],
         systemPrompt: '',
+        allowedExternalPaths: [],
         allowedExportPaths: [],
         slashCommands: [],
         keyboardNavigation: { scrollUpKey: 'w', scrollDownKey: 's', focusInputKey: 'i' },
@@ -118,6 +119,7 @@ describe('types.ts', () => {
         environmentVariables: 'API_KEY=test',
         envSnippets: [],
         systemPrompt: '',
+        allowedExternalPaths: [],
         allowedExportPaths: [],
         slashCommands: [],
         keyboardNavigation: { scrollUpKey: 'w', scrollDownKey: 's', focusInputKey: 'i' },
@@ -146,6 +148,7 @@ describe('types.ts', () => {
         environmentVariables: '',
         envSnippets: [],
         systemPrompt: '',
+        allowedExternalPaths: [],
         allowedExportPaths: [],
         slashCommands: [],
         keyboardNavigation: { scrollUpKey: 'w', scrollDownKey: 's', focusInputKey: 'i' },

@@ -14,6 +14,7 @@ export class FileContextState {
   private sessionStarted = false;
   private mentionedMcpServers: Set<string> = new Set();
   private currentNoteSent = false;
+  private sentCurrentNotePath: string | null = null;
   /** Maps display name (e.g., "@folder/file.ts") to absolute path for context files. */
   private contextFileMap: Map<string, string> = new Map();
 
@@ -30,12 +31,20 @@ export class FileContextState {
     return this.pinnedFiles.size > 0;
   }
 
-  hasSentCurrentNote(): boolean {
-    return this.currentNoteSent;
+  shouldSendCurrentNote(notePath: string | null | undefined): boolean {
+    if (!notePath) return false;
+    return !this.currentNoteSent || this.sentCurrentNotePath !== notePath;
   }
 
-  markCurrentNoteSent(): void {
+  markCurrentNoteSent(notePath: string | null | undefined): void {
+    if (!notePath) return;
     this.currentNoteSent = true;
+    this.sentCurrentNotePath = notePath;
+  }
+
+  markCurrentNoteAlreadySent(notePath: string | null | undefined): void {
+    this.currentNoteSent = !!notePath;
+    this.sentCurrentNotePath = notePath ?? null;
   }
 
   isSessionStarted(): boolean {
@@ -49,6 +58,7 @@ export class FileContextState {
   resetForNewConversation(): void {
     this.sessionStarted = false;
     this.currentNoteSent = false;
+    this.sentCurrentNotePath = null;
     this.attachedFiles.clear();
     this.pinnedFiles.clear();
     this.contextFileMap.clear();
@@ -57,6 +67,7 @@ export class FileContextState {
 
   resetForLoadedConversation(hasMessages: boolean): void {
     this.currentNoteSent = hasMessages;
+    this.sentCurrentNotePath = null;
     this.attachedFiles.clear();
     this.pinnedFiles.clear();
     this.contextFileMap.clear();

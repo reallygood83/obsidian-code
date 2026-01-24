@@ -144,6 +144,7 @@ export interface ObsidianCodeSettings {
   environmentVariables: string;
   envSnippets: EnvSnippet[];
   systemPrompt: string;
+  allowedExternalPaths: string[];
   allowedExportPaths: string[];
   slashCommands: SlashCommand[];
   keyboardNavigation: KeyboardNavigationSettings;
@@ -171,6 +172,7 @@ export const DEFAULT_SETTINGS: ObsidianCodeSettings = {
   environmentVariables: '',
   envSnippets: [],
   systemPrompt: '',
+  allowedExternalPaths: [],
   allowedExportPaths: ['~/Desktop', '~/Downloads'],
   slashCommands: [],
   keyboardNavigation: {

@@ -161,7 +161,7 @@ export class ConversationController {
     fileCtx?.resetForLoadedConversation(hasMessages);
 
     if (conversation.currentNote) {
-      fileCtx?.setCurrentNote(conversation.currentNote);
+      fileCtx?.setCurrentNote(conversation.currentNote, hasMessages);
     } else if (isNewConversation || !hasMessages) {
       fileCtx?.autoAttachActiveFile();
     }
@@ -239,7 +239,7 @@ export class ConversationController {
     fileCtx?.resetForLoadedConversation(state.messages.length > 0);
 
     if (conversation.currentNote) {
-      fileCtx?.setCurrentNote(conversation.currentNote);
+      fileCtx?.setCurrentNote(conversation.currentNote, state.messages.length > 0);
     }
 
     // Restore external context paths (or clear if none)

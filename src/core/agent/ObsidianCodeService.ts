@@ -409,7 +409,10 @@ export class ObsidianCodeService {
       mediaFolder: this.plugin.settings.mediaFolder,
       customPrompt: this.plugin.settings.systemPrompt,
       allowedExportPaths: this.plugin.settings.allowedExportPaths,
-      externalContextPaths: queryOptions?.externalContextPaths,
+      externalContextPaths: Array.from(new Set([
+        ...(this.plugin.settings.allowedExternalPaths ?? []),
+        ...(queryOptions?.externalContextPaths ?? []),
+      ])),
       vaultPath: cwd,
       hasEditorContext,
       planMode: queryOptions?.planMode,
@@ -459,8 +462,11 @@ export class ObsidianCodeService {
       enableBlocklist: this.plugin.settings.enableBlocklist,
     }));
 
-    // External context paths (added via folder icon in UI)
-    const externalContextPaths = queryOptions?.externalContextPaths || [];
+    // External context paths (added via folder icon in UI) plus persisted settings.
+    const externalContextPaths = Array.from(new Set([
+      ...(this.plugin.settings.allowedExternalPaths ?? []),
+      ...(queryOptions?.externalContextPaths ?? []),
+    ]));
 
     const vaultRestrictionHook = createVaultRestrictionHook({
       getPathAccessType: (p) => {

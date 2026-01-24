@@ -34,18 +34,30 @@ export const COMMANDS_PATH = '.claude/commands';
 /** Path to global commands folder. */
 export const GLOBAL_COMMANDS_PATH = path.join(os.homedir(), '.claude', 'commands');
 
+/** Path to installed plugins JSON file. */
+const INSTALLED_PLUGINS_PATH = path.join(os.homedir(), '.claude', 'plugins', 'installed_plugins.json');
+
+/** Structure of installed_plugins.json */
+interface InstalledPluginsFile {
+  version: number;
+  plugins: Record<string, Array<{ installPath: string }>>;
+}
+
 export class SlashCommandStorage {
   constructor(private adapter: VaultFileAdapter) {}
 
   /**
-   * Load all commands from both global (~/.claude/commands/) and vault (.claude/commands/).
-   * Vault commands take precedence over global commands with the same name.
+   * Load all commands from plugins, global (~/.claude/commands/), and vault (.claude/commands/).
+   * Priority: vault > global > plugins (vault overrides all)
    */
   async loadAll(): Promise<SlashCommand[]> {
-    // Load global commands first
+    // Load plugin commands first (lowest priority)
+    const pluginCommands = this.loadAllFromPlugins();
+
+    // Load global commands
     const globalCommands = this.loadAllFromGlobal();
 
-    // Load vault commands
+    // Load vault commands (highest priority)
     const vaultCommands: SlashCommand[] = [];
     try {
       const files = await this.adapter.listFilesRecursive(COMMANDS_PATH);
@@ -66,10 +78,13 @@ export class SlashCommandStorage {
       console.error('[ObsidianCode] Failed to list vault command files:', error);
     }
 
-    // Merge: vault commands override global commands with the same name
+    // Merge with priority: vault > global > plugins
     const vaultNames = new Set(vaultCommands.map(c => c.name));
+    const globalNames = new Set(globalCommands.map(c => c.name));
+
     const mergedCommands = [
-      ...globalCommands.filter(c => !vaultNames.has(c.name)),
+      ...pluginCommands.filter((c: SlashCommand) => !globalNames.has(c.name) && !vaultNames.has(c.name)),
+      ...globalCommands.filter((c: SlashCommand) => !vaultNames.has(c.name)),
       ...vaultCommands,
     ];
 
@@ -109,6 +124,81 @@ export class SlashCommandStorage {
     }
 
     return commands;
+  }
+
+  /**
+   * Load commands from installed Claude Code plugins.
+   * Reads ~/.claude/plugins/installed_plugins.json and scans each plugin's commands/ folder.
+   */
+  private loadAllFromPlugins(): SlashCommand[] {
+    const commands: SlashCommand[] = [];
+
+    if (!fs.existsSync(INSTALLED_PLUGINS_PATH)) {
+      return commands;
+    }
+
+    try {
+      const content = fs.readFileSync(INSTALLED_PLUGINS_PATH, 'utf-8');
+      const pluginsFile = JSON.parse(content) as InstalledPluginsFile;
+
+      if (!pluginsFile.plugins || typeof pluginsFile.plugins !== 'object') {
+        return commands;
+      }
+
+      // Iterate over all installed plugins
+      for (const [pluginId, installations] of Object.entries(pluginsFile.plugins)) {
+        if (!Array.isArray(installations) || installations.length === 0) continue;
+
+        // Use the first installation (most plugins have only one)
+        const installation = installations[0];
+        if (!installation.installPath) continue;
+
+        const commandsDir = path.join(installation.installPath, 'commands');
+        if (!fs.existsSync(commandsDir)) continue;
+
+        // Load all .md files from the plugin's commands folder
+        const files = this.listFilesRecursiveSync(commandsDir);
+        for (const filePath of files) {
+          if (!filePath.endsWith('.md')) continue;
+
+          try {
+            const fileContent = fs.readFileSync(filePath, 'utf-8');
+            const relativePath = path.relative(commandsDir, filePath);
+            const command = this.parseFileFromPlugin(fileContent, relativePath, pluginId);
+            if (command) {
+              commands.push(command);
+            }
+          } catch (error) {
+            console.error(`[ObsidianCode] Failed to load plugin command from ${filePath}:`, error);
+          }
+        }
+      }
+    } catch (error) {
+      console.error('[ObsidianCode] Failed to load plugin commands:', error);
+    }
+
+    return commands;
+  }
+
+  /**
+   * Parse a command file from a plugin into a SlashCommand object.
+   */
+  private parseFileFromPlugin(content: string, relativePath: string, pluginId: string): SlashCommand {
+    const parsed = parseSlashCommandContent(content);
+    const name = relativePath.replace(/\.md$/, '');
+    // Extract plugin name from pluginId (e.g., "bkit@bkit-marketplace" -> "bkit")
+    const pluginName = pluginId.split('@')[0];
+    const id = `plugin-${pluginName}-${name.replace(/-/g, '-_').replace(/\//g, '--')}`;
+
+    return {
+      id,
+      name,
+      description: parsed.description ? `[${pluginName}] ${parsed.description}` : `[${pluginName}]`,
+      argumentHint: parsed.argumentHint,
+      allowedTools: parsed.allowedTools,
+      model: parsed.model as ClaudeModel | undefined,
+      content: parsed.promptContent,
+    };
   }
 
   /**
